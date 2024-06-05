@@ -3,20 +3,48 @@ from django.urls import reverse
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 from django.contrib.auth.models import User
+import uuid
 
 
-class Game(Model):
-    name = CharField(max_length=512, null=False)
+#potential idea: two separate classes, Character and DM, inherit from player.
+#this makes it so a player can be a character in one campaign and a DM in another
+#as well as allowing for different characters in each campaign
+#does DM need it's own class?
 
-class Player(Model):
-    is_dm = BooleanField(default=False)
-    game = ForeignKey(to=Game, on_delete=CASCADE, related_name="players")
-    user = ForeignKey(to=settings.AUTH_USER_MODEL, related_name="playing")
+class Game(models.Model):
+    "Represents a specific campaign instance"
+    #Unique Name
+    #unique game id?
+    #Can have any number of players, and any number of DM's.
+    #Should DM's count as a kind of player?
+    #Can have any number of quests. Quest attributes should be handled in their own model
+    name = models.CharField(max_length=512, null=False)
+    dm = models.ManyToManyField('Player', null=False)
 
-class Quest(Model):
-    game = ForeignKey(to=Game, on_delete=CASCADE, related_name="quests")
-    is_complete = BooleanField(default=False)
-    details = ...
+class Player(models.Model):
+    #Unique username
+    #maybe unique userid? Use uuid?
+    #Can be part of any number of games.
+    #Can be both dm and regular player in different games
+    name = models.CharField(max_length=512, null=False)
+
+    
+
+class Character(models.Model):
+    name = models.CharField(max_length=512, null=False)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
+
+
+class Quest(models.Model):
+    game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
+    #give quest a visibility attribute. If null, visible by all. 
+    #else, visible only by the characters explicitly listed, and the DM.
+    visible = models.ManyToManyField(Character, null=True)
+    summary = models.TextField(
+        max_length=10000)
+    is_complete = models.BooleanField(default=False)
+
 
 
 
