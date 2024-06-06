@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Questlog Home</h1>
+  <p>
+    Welcome to Questlog, a website developed by
+    <em>Sean Hogarty</em>!
+  </p>
+  <h2>Site Stats</h2>
+  <p>Currently, there are:</p>
+  <ul>
+    <li>{{ num_characters }} <strong> Characters, undertaking</strong> </li>
+    <li> {{ num_quests}} <strong> Quests, in </strong> </li>
+    <li> {{ num_games }}<strong> Campaigns </strong> </li>
+  </ul>
+{% endblock %}
