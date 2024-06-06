@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 from django.contrib.auth.models import User
+from django.conf import settings
 import uuid
 
 
@@ -12,38 +13,56 @@ import uuid
 #does DM need it's own class?
 
 class Game(models.Model):
-    "Represents a specific campaign instance"
+    "Represents a specific game instance"
     #Unique Name
     #unique game id?
     #Can have any number of players, and any number of DM's.
     #Should DM's count as a kind of player?
     #Can have any number of quests. Quest attributes should be handled in their own model
     name = models.CharField(max_length=512, null=False)
-    dm = models.ManyToManyField('Player', null=False)
+    dm = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
-class Player(models.Model):
-    #Unique username
-    #maybe unique userid? Use uuid?
-    #Can be part of any number of games.
-    #Can be both dm and regular player in different games
-    name = models.CharField(max_length=512, null=False)
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.name
 
-    
+    def get_absolute_url(self):
+        """Returns the url to access a particular game instance."""
+        return reverse('game-detail', args=[str(self.id)])
+
 
 class Character(models.Model):
     name = models.CharField(max_length=512, null=False)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False)
     game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.name
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular character instance."""
+        return reverse('character-detail', args=[str(self.id)])
 
 
 class Quest(models.Model):
+    name = models.CharField(max_length=512, null=False)
     game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
     #give quest a visibility attribute. If null, visible by all. 
     #else, visible only by the characters explicitly listed, and the DM.
-    visible = models.ManyToManyField(Character, null=True)
+    visible = models.ManyToManyField(Character)
     summary = models.TextField(
         max_length=10000)
     is_complete = models.BooleanField(default=False)
+    
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.name
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular character instance."""
+        return reverse('character-detail', args=[str(self.id)])
+
 
 
 
