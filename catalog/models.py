@@ -2,9 +2,11 @@ from django.db import models
 from django.urls import reverse
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.conf import settings
 import uuid
+
+UserModel = get_user_model()
 
 
 #potential idea: two separate classes, Character and DM, inherit from player.
@@ -20,7 +22,7 @@ class Game(models.Model):
     #Should DM's count as a kind of player?
     #Can have any number of quests. Quest attributes should be handled in their own model
     name = models.CharField(max_length=512, null=False)
-    dm = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    dm = models.ManyToManyField(UserModel)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -33,7 +35,7 @@ class Game(models.Model):
 
 class Character(models.Model):
     name = models.CharField(max_length=512, null=False)
-    player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False)
+    player = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=False, blank=False)
     game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
 
     def __str__(self):

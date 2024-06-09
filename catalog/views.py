@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import Game, Character, Quest
+from django.contrib.auth import get_user_model
+
+UserModel = get_user_model()
 
 # Create your views here.
 
