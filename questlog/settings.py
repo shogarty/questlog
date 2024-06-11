@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-yu$u!1j-lilbsha_83qqd7g-$3f6i+vr2@zm0hmm1y5#)js8*q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['questlog.local', '.questlog.local']
+ALLOWED_HOSTS = ['127.0.0.1','questlog.local', '.questlog.local']
 
 
 # Application definition

@@ -7,7 +7,6 @@ from Tenants.utils import tenant_from_request
 # Register your models here.
 from .models import Game, Character, Quest
 
-admin.site.register(Game)
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
@@ -28,4 +27,3 @@ admin.site.register(Character)
 admin.site.register(Quest)
 admin.site.register(User)
 admin.site.register(Tenant)
-admin.site.register(TenantAwareModel)
