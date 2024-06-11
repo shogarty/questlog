@@ -4,6 +4,7 @@ from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from Tenants.models import Tenant, TenantAwareModel
 import uuid
 
 UserModel = get_user_model()
@@ -14,7 +15,7 @@ UserModel = get_user_model()
 #as well as allowing for different characters in each campaign
 #does DM need it's own class?
 
-class Game(models.Model):
+class Game(TenantAwareModel):
     "Represents a specific game instance"
     #Unique Name
     #unique game id?
@@ -33,7 +34,7 @@ class Game(models.Model):
         return reverse('game-detail', args=[str(self.id)])
 
 
-class Character(models.Model):
+class Character(TenantAwareModel):
     name = models.CharField(max_length=512, null=False)
     player = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=False, blank=False)
     game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
@@ -47,7 +48,7 @@ class Character(models.Model):
         return reverse('character-detail', args=[str(self.id)])
 
 
-class Quest(models.Model):
+class Quest(TenantAwareModel):
     name = models.CharField(max_length=512, null=False)
     game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
     #give quest a visibility attribute. If null, visible by all. 
