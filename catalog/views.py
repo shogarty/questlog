@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Game, Character, Quest
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 UserModel = get_user_model()
 
