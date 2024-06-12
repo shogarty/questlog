@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'Tenants',
 ]
 
-AUTH_USER_MODEL = 'Profiles.User'
+AUTH_USER_MODEL = 'Profiles.MyUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

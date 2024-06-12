@@ -1,5 +1,4 @@
 from django.contrib import admin
-from Profiles.models import User
 from Tenants.models import Tenant, TenantAwareModel
 
 from Tenants.utils import tenant_from_request
@@ -25,5 +24,4 @@ class GameAdmin(admin.ModelAdmin):
 
 admin.site.register(Character)
 admin.site.register(Quest)
-admin.site.register(User)
 admin.site.register(Tenant)
