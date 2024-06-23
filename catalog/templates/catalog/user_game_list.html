@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Current Games</h1>
+
+    {% if game_list %}
+    <ul>
+
+      {% for game in game_list %}
+        <a href="{% url 'game-detail' gameinst.game.pk %}">{{ gameinst.name }}</a> ({{ gameinst.dm }})
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no current games.</p>
+    {% endif %}
+{% endblock %}
