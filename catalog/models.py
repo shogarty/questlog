@@ -24,6 +24,7 @@ class Game(TenantAwareModel):
     #Can have any number of quests. Quest attributes should be handled in their own model
     name = models.CharField(max_length=512, null=False)
     dm = models.ManyToManyField(UserModel)
+    players = models.ManyToManyField(UserModel, null=True)
 
     def __str__(self):
         """String for representing the Model object."""
