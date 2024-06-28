@@ -9,7 +9,7 @@ from .models import Game, Character, Quest
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    fields = ["name", "owner"]
+    fields = ["name", "dm"]
 
     def get_queryset(self, request, *args, **kwargs):
         queryset = super().get_queryset(request, *args, **kwargs)
