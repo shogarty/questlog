@@ -15,29 +15,12 @@ UserModel = get_user_model()
 #as well as allowing for different characters in each campaign
 #does DM need it's own class?
 
-class Game(TenantAwareModel):
-    "Represents a specific game instance"
-    #Unique Name
-    #unique game id?
-    #Can have any number of players, and any number of DM's.
-    #Should DM's count as a kind of player?
-    #Can have any number of quests. Quest attributes should be handled in their own model
-    name = models.CharField(max_length=512, null=False)
-    dm = models.ManyToManyField(UserModel)
 
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.name
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular game instance."""
-        return reverse('game-detail', args=[str(self.id)])
 
 
 class Character(TenantAwareModel):
     name = models.CharField(max_length=512, null=False)
     player = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=False, blank=False)
-    game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -48,25 +31,7 @@ class Character(TenantAwareModel):
         return reverse('character-detail', args=[str(self.id)])
 
 
-class Quest(TenantAwareModel):
-    name = models.CharField(max_length=512, null=False)
-    game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE)
-    #give quest a visibility attribute. If null, visible by all. 
-    #else, visible only by the characters explicitly listed, and the DM.
-    visible = models.ManyToManyField(Character)
-    summary = models.TextField(
-        max_length=10000)
-    is_complete = models.BooleanField(default=False)
-    
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.name
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular character instance."""
-        return reverse('character-detail', args=[str(self.id)])
-
-
+ 
 
 
 
