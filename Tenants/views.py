@@ -1,14 +1,18 @@
 from django.shortcuts import render
 
-from .models import Quest
+from .models import Quest, Character
+from django.contrib.auth import get_user_model
 
 from .utilities import get_tenant
+
+UserModel = get_user_model()
 
 # Create your views here.
 
 
-def our_quests(request):
+def campaign(request):
     tenant = get_tenant(request)
     quests = Quest.objects.filter(tenant=tenant)
+    characters = Character.objects.filter(tenant=tenant)
 
-    return render(request, 'tenant/our_quests.html', {'tenant': tenant, 'quests': quests})
+    return render(request, 'tenant/campaign.html', {'tenant': tenant, 'quests': quests, 'characters': characters})

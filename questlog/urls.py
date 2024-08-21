@@ -21,10 +21,10 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
-from Tenants.views import our_quests
+from Tenants.views import campaign
 
 urlpatterns = [
-    path('our_quests/', our_quests, name = 'our_quests'),
+    path('campaign/', campaign, name = 'campaign'),
     path('admin/', admin.site.urls),
     path('catalog/', include('catalog.urls')),
     path('', RedirectView.as_view(url='catalog/', permanent=True)),

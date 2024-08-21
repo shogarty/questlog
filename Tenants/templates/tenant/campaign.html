@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<h1>{{tenant.name}}</h1>
+
+<h2>Party Members</h2>
+
+<ul>
+    {% for character in characters %}
+        <li> {{character.name}}, played by {{character.player}}</li>
+
+    {% endfor %}
+</ul>
+
+<h2>Campaign Quests</h2>
+
+<ul> 
+    {% for quest in quests %}
+        <li> {{quest.name}}</li>
+
+        {{quest.summary}}
+    {% endfor %}
+</ul>
+
+{% endblock %}

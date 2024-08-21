@@ -17,20 +17,6 @@ UserModel = get_user_model()
 
 
 
-
-class Character(TenantAwareModel):
-    name = models.CharField(max_length=512, null=False)
-    player = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=False, blank=False)
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.name
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular character instance."""
-        return reverse('character-detail', args=[str(self.id)])
-
-
  
 
 
