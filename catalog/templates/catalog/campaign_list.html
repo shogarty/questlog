@@ -2,11 +2,11 @@
 
 {% block content %}
   <h1>Campaign List</h1>
-  {% if tenant_list %}
+  {% if campaign_list %}
     <ul>
-      {% for tenant in tenant_list %}
+      {% for campaign in campaign_list %}
       <li>
-        <a href="{{ tenant.get_absolute_url }}">{{ tenant.name }}</a>
+        <a href="{{ campaign.get_absolute_url }}">{{ campaign.name }}</a>
       </li>
       {% endfor %}
     </ul>

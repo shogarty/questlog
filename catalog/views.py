@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from Tenants.models import Tenant, Quest, Character
+from .models import Campaign, Quest, Character
 
 
 UserModel = get_user_model()
@@ -23,30 +23,29 @@ def index(request):
 
     # The 'all()' is implied by default.
 
-    num_campaigns = Tenant.objects.all().count()
-    num_quests = Quest.objects.all().count()
+    #num_campaigns = Campaign.objects.all().count()
+    #num_quests = Quest.objects.all().count()
 
     context = {
-        'num_campaigns': num_campaigns,
-        'num_quests' : num_quests
 
     }
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
-class TenantListView(generic.ListView):
-    model = Tenant
-    context_object_name = 'tenant_list'
+class CampaignListView(generic.ListView):
+    model = Campaign
+    context_object_name = 'campaign_list'
 
 class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
     """Generic class based view listing a user's current campaigns"""
 
-    model = Tenant
+    model = Campaign
     template_name = "catalog/user_current_campaigns.html"
     paginate_by =  10
 
     def get_queryset(self):
         return(
-            Tenant.objects.filter(players=self.request.user)
+            Campaign.objects.filter(players=self.request.user)
         )
+    

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
     'Profiles',
-    'Tenants',
 ]
 
 AUTH_USER_MODEL = 'Profiles.MyUser'
