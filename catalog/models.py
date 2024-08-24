@@ -16,7 +16,8 @@ UserModel = get_user_model()
 
 class Campaign(models.Model):
     name = models.CharField(max_length=100)
-    players = models.ManyToManyField(UserModel)
+    players = models.ManyToManyField(UserModel, related_name="rev_players")
+    dm = models.ManyToManyField(UserModel, related_name="rev_dm")
 
     def __str__(self):
         """String for representing the Model object."""
