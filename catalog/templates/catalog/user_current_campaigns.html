@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Current Campaigns</h1>
+
+    {% if tenant_list %}
+    <ul>
+
+      {% for tenant in tenant_list %}
+      <li>{{ tenant.name }}</li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>You are not part of any campaigns.</p>
+    {% endif %}
+{% endblock %}
