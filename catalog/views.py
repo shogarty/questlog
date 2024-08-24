@@ -23,10 +23,12 @@ def index(request):
 
     # The 'all()' is implied by default.
 
-    #num_campaigns = Campaign.objects.all().count()
-    #num_quests = Quest.objects.all().count()
+    num_campaigns = Campaign.objects.all().count()
+    num_quests = Quest.objects.all().count()
 
     context = {
+        'num_campaigns': num_campaigns,
+        'num_quests' : num_quests
 
     }
 
