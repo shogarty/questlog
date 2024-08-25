@@ -25,7 +25,7 @@ class Campaign(models.Model):
     
     def get_absolute_url(self):
         """Returns the url to access a particular Campaign instance."""
-        return reverse('tenant-detail', args=[str(self.id)])
+        return reverse('campaign-detail', args=[str(self.id)])
 
     
 class Character(models.Model):

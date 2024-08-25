@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h1>{{campaign.name}}</h1>
+
+    DM: 
+    {% for dm in campaign.dm.all %}
+    <li>{{dm}}</li>
+    {%endfor%}
+
+    <h4>Player Characters</h4>
+
+    {% for character in campaign.character_set.all %}
+    <li>{{ character.name }}, played by {{character.player}}</li>
+
+    {%endfor%}
+
+    <h2>Quests</h2>
+
+    {% for quest in campaign.quest_set.all %}
+    <li><a href="{{ quest.get_absolute_url }}">{{ quest.name }}</a></li>
+    {%endfor%}
+
+
+
+{% endblock %}

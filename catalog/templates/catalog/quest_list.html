@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Quest List</h1>
+  {% if quest_list %}
+    <ul>
+      {% for quest in quest_list %}
+      <li>
+        <a href="{{ quest.get_absolute_url }}">{{ quest.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no current quests.</p>
+  {% endif %}
+{% endblock %}

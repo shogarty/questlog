@@ -39,6 +39,23 @@ class CampaignListView(generic.ListView):
     model = Campaign
     context_object_name = 'campaign_list'
 
+class CharacterListView(generic.ListView):
+    model = Character
+    context_object_name = 'character_list'
+
+class QuestListView(generic.ListView):
+    model = Quest
+    context_object_name = 'quest_list'
+
+class CampaignDetailView(generic.DetailView):
+    model = Campaign
+
+class CharacterDetailView(generic.DetailView):
+    model = Character
+
+class QuestDetailView(generic.DetailView):
+    model = Quest
+
 class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
     """Generic class based view listing a user's current campaigns"""
 
@@ -50,4 +67,6 @@ class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
         return(
             Campaign.objects.filter(players=self.request.user)
         )
+
+
     
