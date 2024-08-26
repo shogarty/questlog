@@ -35,6 +35,9 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
+
+
+
 class CampaignListView(generic.ListView):
     model = Campaign
     context_object_name = 'campaign_list'
@@ -55,6 +58,7 @@ class CharacterDetailView(generic.DetailView):
 
 class QuestDetailView(generic.DetailView):
     model = Quest
+
 
 class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
     """Generic class based view listing a user's current campaigns"""
