@@ -1,4 +1,6 @@
+from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
+from django.forms.models import BaseModelForm
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +9,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 import datetime
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -58,6 +60,18 @@ class CharacterDetailView(generic.DetailView):
 
 class QuestDetailView(generic.DetailView):
     model = Quest
+
+class CampaignCreate(LoginRequiredMixin, CreateView):
+    Model = Campaign
+    fields = ['name']
+    
+    def form_valid(self, form):
+        form.instance.dm = self.request.user
+        return super().form_valid(form)
+    
+class CampaignUpdate(PermissionRequiredMixin, UpdateView):
+    model = Campaign
+    fields = ['name', 'players']
 
 
 class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
