@@ -71,7 +71,7 @@ class CampaignCreate(LoginRequiredMixin, CreateView):
     
 class CampaignUpdate(PermissionRequiredMixin, UpdateView):
     model = Campaign
-    fields = ['name', 'players']
+    fields = ['name', 'players','dm']
 
 
 class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
