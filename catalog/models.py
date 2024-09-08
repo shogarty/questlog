@@ -19,6 +19,15 @@ class Campaign(models.Model):
     players = models.ManyToManyField(UserModel, related_name="rev_players")
     dm = models.ManyToManyField(UserModel, related_name="rev_dm")
 
+    class Meta:
+        #individualized perms for actions unnecessary
+        #DM's and players have fixed sets of perms
+        #DM's can delete campaign, add/remove players, add/remove quests, etc.
+        permissions = (
+            ('dm_auth', 'DM Authority'),
+            ('player_auth', 'Player Authority')
+        )
+
     def __str__(self):
         """String for representing the Model object."""
         return self.name
@@ -26,6 +35,7 @@ class Campaign(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular Campaign instance."""
         return reverse('campaign-detail', args=[str(self.id)])
+
 
     
 class Character(models.Model):
@@ -50,6 +60,11 @@ class Quest(models.Model):
     summary = models.TextField(
         max_length=10000)
     is_complete = models.BooleanField(default=False)
+
+    class Meta:
+        permissions = (
+            ('dm_auth', 'DM Authority'),
+        )
     
     def __str__(self):
         """String for representing the Model object."""
