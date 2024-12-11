@@ -1,9 +1,25 @@
 {% extends "base_generic.html" %}
 
-{% block content %}
+{% load guardian_tags %}
 
-    <h1>{{character.name}}</h1>
+{% get_obj_perms request.user for object as 'object_perms' %}
 
-    
 
-{% endblock %}
+    {% block content %}
+
+        {% if "dm_auth" in object_perms %}
+        <hr>
+        <ul class="sidebar-nav">
+            <li><a href="{% url 'campaign-update' campaign.id %}">Edit</a></li>
+            </ul>
+        {% endif %}
+
+        
+        {% if "player_auth" in object_perms %}
+            <h1>{{character.name}}</h1>
+
+        {%endif%}
+
+        
+
+    {% endblock %}

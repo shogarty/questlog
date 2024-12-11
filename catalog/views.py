@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import generic
 import datetime
 from django.contrib.auth.decorators import login_required, permission_required
@@ -70,11 +70,24 @@ class CampaignCreate(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.dm = self.request.user
+        form.instance.players = self.request.user
+        assign_perm('dm_auth', self.request.user, self.object)
+        assign_perm('player_auth', self.request.user, self.object)
         return super().form_valid(form)
     
 class CampaignUpdate(PermissionRequiredMixin, UpdateView):
     model = Campaign
+    permission_required = ['dm_auth']
     fields = ['name', 'players','dm']
+
+    def form_valid(self, form):
+        for p in self.instance.players:
+            assign_perm('player_auth', p, self.object)
+
+        for d in self.instance.dm:
+            assign_perm('dm_auth', d, self.object)
+        return super().form_valid(form)
+
 
 
 class UserCurrentCampaignsView(LoginRequiredMixin, generic.ListView):
