@@ -64,6 +64,25 @@ class CharacterDetailView(generic.DetailView):
 class QuestDetailView(generic.DetailView):
     model = Quest
 
+class QuestCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Quest
+    fields = ['name', 'summary', 'is_complete']
+    permission_required = 'catalog.dm_auth'
+
+    def form_valid(self, form):
+        form.instance.campaign = get_object_or_404(Campaign, pk=self.kwargs['campaign_id'])
+        return super().form_valid(form)
+    
+class QuestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Quest
+    fields = ['name', 'summary', 'is_complete']
+    permission_required = 'catalog.dm_auth'
+
+class QuestDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Quest
+    success_url = reverse_lazy('quest-list')
+    permission_required = 'catalog.dm_auth'
+
 class CampaignCreate(LoginRequiredMixin, CreateView):
     Model = Campaign
     fields = ['name']
