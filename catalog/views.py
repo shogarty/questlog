@@ -84,28 +84,30 @@ class QuestDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'catalog.dm_auth'
 
 class CampaignCreate(LoginRequiredMixin, CreateView):
-    Model = Campaign
+    model = Campaign
     fields = ['name']
     
     def form_valid(self, form):
-        form.instance.dm = self.request.user
-        form.instance.players = self.request.user
-        assign_perm('dm_auth', self.request.user, self.object)
-        assign_perm('player_auth', self.request.user, self.object)
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.object.dm.add(self.request.user)
+        self.object.players.add(self.request.user)
+        assign_perm('catalog.dm_auth', self.request.user, self.object)
+        assign_perm('catalog.player_auth', self.request.user, self.object)
+        return response
     
 class CampaignUpdate(PermissionRequiredMixin, UpdateView):
     model = Campaign
-    permission_required = ['dm_auth']
+    permission_required = 'catalog.dm_auth'
     fields = ['name', 'players','dm']
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         for p in self.instance.players:
-            assign_perm('player_auth', p, self.object)
+            assign_perm('catalog.player_auth', p, self.object)
 
         for d in self.instance.dm:
-            assign_perm('dm_auth', d, self.object)
-        return super().form_valid(form)
+            assign_perm('catalog.dm_auth', d, self.object)
+        return response
 
 
 

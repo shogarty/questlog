@@ -22,6 +22,7 @@
     <li><a href="{{ quest.get_absolute_url }}">{{ quest.name }}</a></li>
     {%endfor%}
 
+
     {% if perms.catalog.dm_auth %}
     <a href="{% url 'quest-create' campaign.id %}">Create Quest</a>
     {% endif %}
